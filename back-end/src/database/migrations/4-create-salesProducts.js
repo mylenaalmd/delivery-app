@@ -1,3 +1,6 @@
+
+// Falta construir a chave primária composta
+
 module.exports = {
     up: async (queryInterface, Sequelize) => {
       await queryInterface.createTable('salesProducts', {
