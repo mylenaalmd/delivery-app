@@ -1,29 +1,35 @@
 const { userService } = require('../services');
+const ErrorGenerator = require('../utils/ErrorGenerator')
+const md5 = require('md5')
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 
 const login = async (req, res) => {
   try {
-      const { email } = req.body;
+      const { email, password } = req.body;
       
-      if (!email) {
-          return res.status(400).json({ message: 'Some required fields are missing' });
-      }
-
+      if (!email || !password) throw new ErrorGenerator(400, 'Required fields are missing')
+     
       const user = await userService.findUserByEmail(email);
-      console.log(user)
+      
+      if (!user) throw new ErrorGenerator(404, 'Invalid email or password');
 
-      if (!user) return res.status(404).json({ message: 'User not registered' });
+      const comparedPassword = await md5(password);
+
+      if(comparedPassword !== user.password) throw new ErrorGenerator(409, 'Unauthorized');
 
       const jwtConfig = { expiresIn: '99d', algorithm: 'HS256' };
-      const secret = fs.readFileSync('jwt.evaluation.key')
-      const token = jwt.sign({ 
-          data: { id: user.id, name: user.name, email: user.email, role: user.role }, 
-      }, secret, jwtConfig);
+      const secret = fs.readFileSync('jwt.evaluation.key');
+      const token = jwt.sign(
+        { 
+          data: {
+             id: user.id, name: user.name, email: user.email, role: user.role 
+            }, 
+        }, secret, jwtConfig);
       
       return res.status(200).json({ token });
   } catch (error) {
-      return res.status(500).send(error.message);
+      throw new ErrorGenerator(500, error.message)
   }
 };
 
