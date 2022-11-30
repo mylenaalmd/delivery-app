@@ -1,15 +1,23 @@
 import { useState, useEffect } from 'react';
-// import { useNavigate } from "react-router-dom";
-import { Link } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 // import httpRequest from '../axios/config';
-import verifyLogin from '../Utils/verifyLogin';
+// ESTÃO COMENTADAS AS PARTES QUE ESTÂO QUEBRANDO
 
-export default function Login() {
-  // const navigate = useNavigate();
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isButtonDisable, setIsButtonDisable] = useState(true);
+  // const navigate = useNavigate();
+
+  const verifyLogin = (email, password) => {
+    const PASSWORD_LENGHT = 6;
+    const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+    const verifyEmail = EMAIL_REGEX.test(email);
+    const verifyPassword = password.length >= PASSWORD_LENGHT;
+    return verifyEmail && verifyPassword;
+  };
 
   const handleSubmmit = async (event) => {
     event.preventDefault();
@@ -23,6 +31,7 @@ export default function Login() {
   useEffect(() => {
     setIsButtonDisable(!verifyLogin(email, password));
   }, [email, password]);
+
   return (
     <div className="LoginPage">
       <img src="" alt="logo" className="AppLogo" />
@@ -30,30 +39,30 @@ export default function Login() {
       <form onSubmit={ handleSubmmit }>
         <input
           value={ email }
-          handleChange={ (event) => setEmail(event.target.value) }
+          onChange={ (event) => setEmail(event.target.value) }
           type="text"
         />
         <input
-          dataTestId={ dataTestIds[2] }
+        // dataTestId={ dataTestIds[2] }
           value={ password }
-          handleChange={ (event) => setPassword(event.target.value) }
+          onChange={ (event) => setPassword(event.target.value) }
           type="password"
         />
         <button type="submit" disabled={ isButtonDisable }>
           Login
         </button>
-        {/* <button type="submit" handleClick={() => navigate("/register")}>
+        {/* <button type="submit" handleClick={ () => navigate('/register') }>
           Ainda não tenho conta
         </button> */}
-        <Link
-          data-testid="register-login-btn"
+        {/* <Link
           to="/register"
-          className="register-login"
         >
           Ainda não tenho conta
-        </Link>
+        </Link> */}
       </form>
       {error && <p>{error}</p>}
     </div>
   );
 }
+
+export default Login;
