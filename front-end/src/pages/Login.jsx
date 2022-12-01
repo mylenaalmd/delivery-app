@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import httpRequest from '../axios/config';
-// ESTÃO COMENTADAS AS PARTES QUE ESTÂO QUEBRANDO
 
 function Login() {
   const [email, setEmail] = useState('');
