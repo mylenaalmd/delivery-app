@@ -1,11 +1,10 @@
 class ErrorGenerator extends Error {
-    statusCode
-    constructor(statusCode, message){
+    constructor(statusCode, message) {
         super(message);
         this.statusCode = statusCode;
     }
 }
 
 module.exports = {
-    ErrorGenerator
-}
+    ErrorGenerator,
+};
