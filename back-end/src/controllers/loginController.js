@@ -10,11 +10,11 @@ const login = async (req, res) => {
       
       if (!email || !password) throw new ErrorGenerator(400, 'Required fields are missing')
      
-      const user = await userService.findUserByEmail(email);
+      const user = await userService.findUserByEmail(email, password);
       
       if (!user) throw new ErrorGenerator(404, 'Invalid email or password');
 
-      const comparedPassword = await md5(password);
+      const comparedPassword =  md5(password);
 
       if(comparedPassword !== user.password) throw new ErrorGenerator(409, 'Unauthorized');
 
@@ -29,7 +29,7 @@ const login = async (req, res) => {
       
       return res.status(200).json({ token });
   } catch (error) {
-      throw new ErrorGenerator(500, error.message)
+     return res.status(500).json({error:error.message})
   }
 };
 
