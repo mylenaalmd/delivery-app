@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import httpRequest from '../axios/config';
 
 function Login() {
@@ -20,8 +20,9 @@ function Login() {
   const handleSubmmit = async (event) => {
     event.preventDefault();
     try {
-      const { data } = await httpRequest.post('login', { email, password });
+      const { data } = await httpRequest.post('/login', { email, password });
       localStorage.setItem('user', JSON.stringify(data));
+      navigate('/register');
     } catch (err) {
       setError(error.message);
     }
@@ -46,17 +47,16 @@ function Login() {
           onChange={ (event) => setPassword(event.target.value) }
           type="password"
         />
-        <button type="submit" disabled={ isButtonDisabled }>
+        <button
+          type="submit"
+          onClick={ () => navigate('/customer/products') }
+          disabled={ isButtonDisabled }
+        >
           Login
         </button>
-        <button type="submit" onClick={ () => navigate('/register') }>
+        <button type="submit">
           Ainda não tenho conta
         </button>
-        <Link
-          to="/register"
-        >
-          Ainda não tenho conta
-        </Link>
       </form>
       {error && <p>{error}</p>}
     </div>
