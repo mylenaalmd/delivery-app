@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  # Serviço que irá rodar o banco de dados
+  db:
+    container_name: delivery_db
+    image: mysql:8.0.23
+    # Indica de forma fixa a plataforma na qual o banco irá rodar
+    platform: linux/x86_64
+    restart: always
+    ports:
+      # Garanta que não haverá conflitos de porta com um banco que esteja
+      # rodando localmente
+      - 3306:3306
+      - 33060:33060
+    environment:
+      MYSQL_ROOT_PASSWORD: password

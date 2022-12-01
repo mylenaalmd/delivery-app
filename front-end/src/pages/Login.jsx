@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import httpRequest from '../Utils/axios';
+import { Link, useNavigate } from 'react-router-dom';
+import httpRequest from '../axios/config';
 // ESTÃO COMENTADAS AS PARTES QUE ESTÂO QUEBRANDO
 
 function Login() {
@@ -9,14 +8,13 @@ function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isButtonDisable, setIsButtonDisable] = useState(true);
-  // const navigate = useNavigate();
-  // const history = useHistory();
+  const navigate = useNavigate();
 
-  const verifyLogin = (email, password) => {
+  const verifyLogin = (loginEmail, loginPassword) => {
     const PASSWORD_LENGHT = 6;
     const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
-    const verifyEmail = EMAIL_REGEX.test(email);
-    const verifyPassword = password.length >= PASSWORD_LENGHT;
+    const verifyEmail = EMAIL_REGEX.test(loginEmail);
+    const verifyPassword = loginPassword.length >= PASSWORD_LENGHT;
     return verifyEmail && verifyPassword;
   };
 
@@ -44,7 +42,7 @@ function Login() {
           type="text"
         />
         <input
-        // dataTestId={ dataTestIds[2] }
+          // dataTestId={ dataTestIds[2] }
           value={ password }
           onChange={ (event) => setPassword(event.target.value) }
           type="password"
@@ -52,8 +50,10 @@ function Login() {
         <button type="submit" disabled={ isButtonDisable }>
           Login
         </button>
+        <button type="submit" onClick={ () => navigate('/register') }>
+          Ainda não tenho conta
+        </button>
         <Link
-          // data-testid="profile-favorite-btn"
           to="/register"
           // className="profile-favorite-btn"
         >

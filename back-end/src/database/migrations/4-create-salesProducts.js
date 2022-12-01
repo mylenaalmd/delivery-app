@@ -1,6 +1,3 @@
-
-// Falta construir a chave primária composta
-
 module.exports = {
     up: async (queryInterface, Sequelize) => {
       await queryInterface.createTable('salesProducts', {
@@ -12,11 +9,11 @@ module.exports = {
           type: Sequelize.INTEGER,
         },
         product_id:{
-            allowNull: false,
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-            references: { model: 'products', key: 'id' },
-            type: Sequelize.INTEGER,
+          allowNull: false,
+          onDelete: 'CASCADE',
+          onUpdate: 'CASCADE',
+          references: { model: 'products', key: 'id' },
+          type: Sequelize.INTEGER,
           },
         quantity:{
           allowNull: false,
