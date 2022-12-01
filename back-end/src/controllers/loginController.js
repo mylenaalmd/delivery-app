@@ -1,5 +1,5 @@
 const { userService } = require('../services');
-const ErrorGenerator = require('../utils/ErrorGenerator')
+const { ErrorGenerator } = require('../utils/ErrorGenerator')
 const md5 = require('md5')
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
