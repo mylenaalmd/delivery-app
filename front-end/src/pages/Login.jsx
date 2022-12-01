@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
-// import { Link } from 'react-router-dom';
-// import httpRequest from '../axios/config';
+import { Link } from 'react-router-dom';
+import httpRequest from '../Utils/axios';
 // ESTÃO COMENTADAS AS PARTES QUE ESTÂO QUEBRANDO
 
 function Login() {
@@ -10,6 +10,7 @@ function Login() {
   const [error, setError] = useState('');
   const [isButtonDisable, setIsButtonDisable] = useState(true);
   // const navigate = useNavigate();
+  // const history = useHistory();
 
   const verifyLogin = (email, password) => {
     const PASSWORD_LENGHT = 6;
@@ -51,14 +52,13 @@ function Login() {
         <button type="submit" disabled={ isButtonDisable }>
           Login
         </button>
-        {/* <button type="submit" handleClick={ () => navigate('/register') }>
-          Ainda não tenho conta
-        </button> */}
-        {/* <Link
+        <Link
+          // data-testid="profile-favorite-btn"
           to="/register"
+          // className="profile-favorite-btn"
         >
           Ainda não tenho conta
-        </Link> */}
+        </Link>
       </form>
       {error && <p>{error}</p>}
     </div>
