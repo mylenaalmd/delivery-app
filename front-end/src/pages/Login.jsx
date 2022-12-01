@@ -20,11 +20,14 @@ function Login() {
   const handleSubmmit = async (event) => {
     event.preventDefault();
     try {
+      console.log('entrou');
       const { data } = await httpRequest.post('/login', { email, password });
+      console.log(data);
       localStorage.setItem('user', JSON.stringify(data));
-      navigate('/register');
+      navigate('/customer/products');
     } catch (err) {
-      setError(error.message);
+      console.log(err.response.data.message);
+      if (err) setError('404 - Not found');
     }
   };
   useEffect(() => {
@@ -49,12 +52,11 @@ function Login() {
         />
         <button
           type="submit"
-          onClick={ () => navigate('/customer/products') }
           disabled={ isButtonDisabled }
         >
           Login
         </button>
-        <button type="submit">
+        <button type="submit" onClick={ () => navigate('/register') }>
           Ainda não tenho conta
         </button>
       </form>
