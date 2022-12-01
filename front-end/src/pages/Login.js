@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import httpRequest from '../axios/config';
-// ESTÃO COMENTADAS AS PARTES QUE ESTÂO QUEBRANDO
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [isButtonDisable, setIsButtonDisable] = useState(true);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const navigate = useNavigate();
 
   const verifyLogin = (loginEmail, loginPassword) => {
@@ -21,14 +20,14 @@ function Login() {
   const handleSubmmit = async (event) => {
     event.preventDefault();
     try {
-      const { data } = await httpRequest.post('login', [email, password]);
+      const { data } = await httpRequest.post('login', { email, password });
       localStorage.setItem('user', JSON.stringify(data));
     } catch (err) {
       setError(error.message);
     }
   };
   useEffect(() => {
-    setIsButtonDisable(!verifyLogin(email, password));
+    setIsButtonDisabled(!verifyLogin(email, password));
   }, [email, password]);
 
   return (
@@ -47,7 +46,7 @@ function Login() {
           onChange={ (event) => setPassword(event.target.value) }
           type="password"
         />
-        <button type="submit" disabled={ isButtonDisable }>
+        <button type="submit" disabled={ isButtonDisabled }>
           Login
         </button>
         <button type="submit" onClick={ () => navigate('/register') }>
