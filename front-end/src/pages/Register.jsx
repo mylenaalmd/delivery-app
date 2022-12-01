@@ -1,34 +1,37 @@
-import { useHistory } from 'react-router-dom';
-import { useState } from 'react';
-import useGenericState from '../Hooks/useGenericState';
+import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+// import useGenericState from '../Hooks/useGenericState';
 
 export default function Register() {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [isValid, setIsValid] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const initialState = {
-    name: '',
-    email: '',
-    password: '',
+  const handleSubmit = async () => {
+    e.preventDefault();
+    const { data } = await httpRequest.post('/register', { email, password });
+    localStorage.setItem('user', JSON.stringify(data));
+    navigate('/customer/products');
   };
 
-  const [genericState, setGenericState] = useGenericState(initialState);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const validate = () => {
     const regex = /\S+@\S+\.\S+/;
     const minNameLength = 12;
     const minPasswordLength = 6;
 
-    if (genericState.name.length < minNameLength
-      || !regex.test(genericState.email)
-      || genericState.password.length < minPasswordLength) {
+    if (name.length > minNameLength
+      && regex.test(email)
+      && password.length > minPasswordLength) {
       setIsValid(true);
-    } else {
-      history.push('/customer/products');
     }
   };
+
+  useEffect(() => {
+    validate();
+  }, [name, email, password]);
 
   return (
     <div className="register-container">
@@ -43,9 +46,9 @@ export default function Register() {
             type="text"
             id="name"
             name="name"
-            value={ genericState.name }
+            value={ name }
             placeholder="Seu Nome"
-            onChange={ setGenericState }
+            onChange={ ({ target }) => setName(target.value) }
           />
         </label>
 
@@ -58,8 +61,8 @@ export default function Register() {
             id="email"
             name="email"
             placeholder="seu-email@site.com.br"
-            value={ genericState.email }
-            onChange={ setGenericState }
+            value={ email }
+            onChange={ ({ target }) => setEmail(target.value) }
           />
         </label>
 
@@ -72,8 +75,8 @@ export default function Register() {
             id="password"
             name="password"
             placeholder="**********"
-            value={ genericState.password }
-            onChange={ setGenericState }
+            value={ password }
+            onChange={ ({ target }) => setPassword(target.value) }
 
           />
         </label>
@@ -81,6 +84,7 @@ export default function Register() {
         <button
           data-testid="common_register__input-button-register"
           type="submit"
+          disabled={ !isValid }
           onClick={ handleSubmit }
         >
           CADASTRAR
@@ -88,7 +92,7 @@ export default function Register() {
         </button>
       </form>
       <div>
-        {isValid
+        {!isValid
           ? (
             <p data-testid="common_register__element-invalid_register">
               Cadastro Inválido

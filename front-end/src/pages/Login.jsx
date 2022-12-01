@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import httpRequest from '../axios/config';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [isButtonDisable, setIsButtonDisable] = useState(true);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const navigate = useNavigate();
 
   const verifyLogin = (loginEmail, loginPassword) => {
@@ -20,14 +20,15 @@ function Login() {
   const handleSubmmit = async (event) => {
     event.preventDefault();
     try {
-      const { data } = await httpRequest.post('login', [email, password]);
+      const { data } = await httpRequest.post('/login', { email, password });
       localStorage.setItem('user', JSON.stringify(data));
+      navigate('/register');
     } catch (err) {
       setError(error.message);
     }
   };
   useEffect(() => {
-    setIsButtonDisable(!verifyLogin(email, password));
+    setIsButtonDisabled(!verifyLogin(email, password));
   }, [email, password]);
 
   return (
@@ -46,18 +47,16 @@ function Login() {
           onChange={ (event) => setPassword(event.target.value) }
           type="password"
         />
-        <button type="submit" disabled={ isButtonDisable }>
+        <button
+          type="submit"
+          onClick={ () => navigate('/customer/products') }
+          disabled={ isButtonDisabled }
+        >
           Login
         </button>
-        <button type="submit" onClick={ () => navigate('/register') }>
+        <button type="submit">
           Ainda não tenho conta
         </button>
-        <Link
-          to="/register"
-          // className="profile-favorite-btn"
-        >
-          Ainda não tenho conta
-        </Link>
       </form>
       {error && <p>{error}</p>}
     </div>
