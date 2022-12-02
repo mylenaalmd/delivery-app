@@ -3,16 +3,17 @@ const saleModel = (sequelize, DataTypes) => {
       id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
       userId: { type: DataTypes.INTEGER, foreignKey: true },
       sellerId: { type: DataTypes.INTEGER, foreignKey: true },
-      totalPrice: DataTypes.DECIMAL,
+      totalPrice: DataTypes.DECIMAL(9,2),
       deliveryAddress: DataTypes.STRING,
       deliveryNumber: DataTypes.STRING,
-      saleDate: DataTypes.DATE,
-      satus: {type: DataTypes.STRING, defaultValue: 'Pendente'},
+      saleDate: {type: DataTypes.DATE, defaultValue: new Date()},
+      status: {type: DataTypes.STRING, defaultValue: 'Pendente'},
     },
     {
       createdAt: 'saleDate',
       tableName: 'sales',
       underscored: true,
+      timestamps: false,
     });
   
     Sale.associate = (models) => {
