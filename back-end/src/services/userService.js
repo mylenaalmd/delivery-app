@@ -24,7 +24,15 @@ const createUser = async (user) => {
     return userCreated;
 };
 
+const getSellers = async () => {
+    const sellers = await User.findAll({
+        attributes: { exclude: ['password'] },
+        where: { role: 'seller' } });
+    return sellers;
+};
+
 module.exports = {
     findUserByEmail,
     createUser,
+    getSellers,
 };

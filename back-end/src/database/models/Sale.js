@@ -7,18 +7,18 @@ const saleModel = (sequelize, DataTypes) => {
       deliveryAddress: DataTypes.STRING,
       deliveryNumber: DataTypes.STRING,
       saleDate: DataTypes.DATE,
-      satus: DataTypes.STRING,
+      satus: {type: DataTypes.STRING, defaultValue: 'Pendente'},
     },
     {
-      timestamps: false,
+      createdAt: 'saleDate',
       tableName: 'sales',
       underscored: true,
     });
   
     Sale.associate = (models) => {
       Sale.belongsTo(models.User,
-        [{ foreignKey: 'userId', as: 'users' },
-      { foreignKey: 'sellerId', as: 'sellers' }]);
+        [{ foreignKey: 'userId', as: 'user' },
+      { foreignKey: 'sellerId', as: 'seller' }]);
     };
   
     return Sale;
