@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 // import useGenericState from '../Hooks/useGenericState';
+import httpRequest from '../axios/config';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -10,9 +11,11 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { data } = await httpRequest.post('/register', { email, password });
+    const data = await httpRequest.post('/register', { name, email, password });
+    console.log('data do register');
+    console.log(data);
     localStorage.setItem('user', JSON.stringify(data));
     navigate('/customer/products');
   };
@@ -85,7 +88,7 @@ export default function Register() {
           data-testid="common_register__input-button-register"
           type="submit"
           disabled={ !isValid }
-          onClick={ handleSubmit }
+          onClick={ (e) => handleSubmit(e) }
         >
           CADASTRAR
 
