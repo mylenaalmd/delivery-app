@@ -24,7 +24,7 @@ function Login() {
       localStorage.setItem('user', JSON.stringify(data));
       navigate('/register');
     } catch (err) {
-      setError(error.message);
+      setError(err.message);
     }
   };
   useEffect(() => {
@@ -49,12 +49,12 @@ function Login() {
         />
         <button
           type="submit"
-          onClick={ () => navigate('/customer/products') }
+          // onClick={ () => navigate('/customer/products') }
           disabled={ isButtonDisabled }
         >
           Login
         </button>
-        <button type="submit">
+        <button type="button">
           Ainda não tenho conta
         </button>
       </form>
