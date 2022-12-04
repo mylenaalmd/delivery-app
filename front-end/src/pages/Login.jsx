@@ -40,27 +40,33 @@ function Login() {
       <h1>Delivery App</h1>
       <form onSubmit={ handleSubmmit }>
         <input
+          data-testid="common_login__input-email"
           value={ email }
           onChange={ (event) => setEmail(event.target.value) }
           type="text"
         />
         <input
-          // dataTestId={ dataTestIds[2] }
+          data-testid="common_login__input-password"
           value={ password }
           onChange={ (event) => setPassword(event.target.value) }
           type="password"
         />
         <button
+          data-testid="common_login__button-login"
           type="submit"
           disabled={ isButtonDisabled }
         >
           Login
         </button>
-        <button type="submit" onClick={ () => navigate('/register') }>
+        <button
+          type="submit"
+          data-testid="common_login__button-register"
+          onClick={ () => navigate('/register') }
+        >
           Ainda não tenho conta
         </button>
       </form>
-      {error && <p>{error}</p>}
+      {error && <p data-testid="common_login__element-invalid-email">{error}</p>}
     </div>
   );
 }
