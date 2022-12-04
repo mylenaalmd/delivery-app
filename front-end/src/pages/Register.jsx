@@ -6,7 +6,7 @@ import httpRequest from '../axios/config';
 export default function Register() {
   const navigate = useNavigate();
 
-  const [isValid, setIsValid] = useState(false);
+  const [isValid, setIsValid] = useState(true);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,7 +28,7 @@ export default function Register() {
     if (name.length > minNameLength
       && regex.test(email)
       && password.length > minPasswordLength) {
-      setIsValid(true);
+      setIsValid(false);
     }
   };
 
@@ -87,7 +87,7 @@ export default function Register() {
         <button
           data-testid="common_register__button-register"
           type="submit"
-          disabled={ !isValid }
+          disabled={ isValid }
           onClick={ (e) => handleSubmit(e) }
         >
           CADASTRAR
@@ -95,7 +95,7 @@ export default function Register() {
         </button>
       </form>
       <div>
-        {!isValid
+        {isValid
           ? (
             <p data-testid="common_register__element-invalid_register">
               Cadastro Inválido
