@@ -85,7 +85,7 @@ export default function Register() {
         </label>
 
         <button
-          data-testid="common_register__input-button-register"
+          data-testid="common_register__button-register"
           type="submit"
           disabled={ !isValid }
           onClick={ (e) => handleSubmit(e) }
