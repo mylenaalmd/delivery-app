@@ -25,10 +25,12 @@ export default function Register() {
     const minNameLength = 12;
     const minPasswordLength = 6;
 
-    if (name.length > minNameLength
+    if (name.length >= minNameLength
       && regex.test(email)
-      && password.length > minPasswordLength) {
+      && password.length >= minPasswordLength) {
       setIsValid(false);
+    } else {
+      setIsValid(true);
     }
   };
 
