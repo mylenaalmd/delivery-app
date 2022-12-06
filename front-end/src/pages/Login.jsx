@@ -21,13 +21,13 @@ function Login() {
     event.preventDefault();
     try {
       console.log('entrou');
-      const { data } = await httpRequest.post('/login', { email, password });
+      const data = await httpRequest.post('/login', { email, password });
       console.log(data);
       localStorage.setItem('user', JSON.stringify(data));
       navigate('/customer/products');
     } catch (err) {
       console.log(err.response.data.message);
-      if (err) setError('404 - Not found');
+      if (err) setError('Dados inválidos');
     }
   };
   useEffect(() => {

@@ -10,14 +10,19 @@ export default function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, serError] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = await httpRequest.post('/register', { name, email, password });
-    console.log('data do register');
-    console.log(data);
-    localStorage.setItem('user', JSON.stringify(data));
-    navigate('/customer/products');
+    try {
+      const data = await httpRequest.post('/register', { name, email, password });
+      console.log(error);
+      localStorage.setItem('user', JSON.stringify(data));
+      navigate('/customer/products');
+    } catch (err) {
+      console.log(err.response.data.message);
+      serError(true);
+    }
   };
 
   const validate = () => {
@@ -97,7 +102,7 @@ export default function Register() {
         </button>
       </form>
       <div>
-        {isValid
+        {error
           ? (
             <p data-testid="common_register__element-invalid_register">
               Cadastro Inválido
