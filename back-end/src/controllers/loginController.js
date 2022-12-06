@@ -7,8 +7,8 @@ const { userService } = require('../services');
 const login = async (req, res, next) => {
   try {
     const user = await userService.findUserByEmail(req.body);
-      const { id, name, email, role, password } = user;
-     if (!user) throw new ErrorGenerator(404, 'Not found teste');
+    if (!user) throw new ErrorGenerator(404, 'Not found');
+    const { id, name, email, role, password } = user;
      if (md5(req.body.password) !== password) throw new ErrorGenerator(409, 'Unauthorized');
      const jwtConfig = { expiresIn: '99d', algorithm: 'HS256' };
      const secret = fs.readFileSync('jwt.evaluation.key');
