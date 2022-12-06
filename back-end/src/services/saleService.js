@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
-const { Sale, SaleProduct } = require('../database/models');
+const { Sale, SaleProduct, Product } = require('../database/models');
 
 // const { ErrorGenerator } = require('../utils/ErrorGenerator');
 
@@ -22,10 +22,8 @@ const createSale = async (sale) => {
 };
 
 const findSalesById = async (token) => {
-    console.log('>>>>>>>', token);
     const data = jwt.verify(token, fs.readFileSync('jwt.evaluation.key'));
     const { data: { id, role } } = data;
-    console.log('>>>>>>>', id, role);
     let sales;
     if (role === 'customer') {
         sales = await Sale.findAll({ where: { userId: id } });
@@ -35,7 +33,18 @@ const findSalesById = async (token) => {
         return sales;
 };
 
+const detailedSale = async (id) => {
+    const sale = await Sale.findAll({
+        where: { id },
+        include: [
+            { model: Product, as: 'product' },
+        ],
+    });
+    return sale;
+};
+
 module.exports = {
     createSale,
     findSalesById,
+    detailedSale,
 };
